@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/db"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/usecase/version"
 	"github.com/go-redis/redis/v8"
-	"notice-latest-program-version/infrastructure/db"
-	"notice-latest-program-version/usecase/version"
 )
 
 // PubSubMessage is the payload of a Pub/Sub event. Please refer to the docs for

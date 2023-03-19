@@ -1,2 +1,2 @@
-# notice-latest-program-version-
+# notice-latest-program-version
 Notice latest program version

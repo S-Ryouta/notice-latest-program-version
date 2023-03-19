@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
+	"notice-latest-program-version/domain/entity"
 )
 
 type VersionRepository interface {

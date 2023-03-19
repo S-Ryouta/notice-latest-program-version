@@ -3,8 +3,8 @@ package db
 import (
 	"context"
 	"encoding/json"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
 	"github.com/go-redis/redis/v8"
-	"notice-latest-program-version/domain/entity"
 	"time"
 )
 

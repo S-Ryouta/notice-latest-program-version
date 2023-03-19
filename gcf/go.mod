@@ -1,4 +1,4 @@
-module github.com/S-Ryouta/notice-latest-program-version/gcf
+module notice-latest-program-version
 
 go 1.20
 

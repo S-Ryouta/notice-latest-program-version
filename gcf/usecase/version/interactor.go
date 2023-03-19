@@ -1,12 +1,11 @@
 package version
 
 import (
-	"context"
 	"fmt"
-	"github.com/yourusername/yourproject/domain/entity"
-	"github.com/yourusername/yourproject/domain/repository"
-	"github.com/yourusername/yourproject/infrastructure/notification"
-	"github.com/yourusername/yourproject/infrastructure/version"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/repository"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/notification"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
 )
 
 type VersionInteractor struct {
@@ -20,22 +19,20 @@ func NewVersionInteractor(client repository.VersionRepository) *VersionInteracto
 }
 
 func (interactor *VersionInteractor) CheckAndUpdateVersion() {
-	ctx := context.Background()
-
-	newVersion, err := version.GetLatestGolangVersion()
+	newVersion, err := version.GetLatestVersion()
 	if err != nil {
 		fmt.Println("Error getting the latest Golang version:", err)
 		return
 	}
 
-	storedVersionEntity, err := interactor.VersionRepo.GetVersion(ctx)
+	storedVersionEntity, err := interactor.VersionRepo.GetVersion()
 	if err != nil {
 		fmt.Println("Error getting the stored Golang version:", err)
 		return
 	}
 
 	if storedVersionEntity.Version != newVersion {
-		err = interactor.VersionRepo.SaveVersion(ctx, &entity.Version{
+		err = interactor.VersionRepo.SaveVersion(&entity.Version{
 			ID:      "golang",
 			Version: newVersion,
 		})

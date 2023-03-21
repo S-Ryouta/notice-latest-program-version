@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
 	"github.com/go-redis/redis/v8"
 	"time"
@@ -20,12 +21,17 @@ func NewRedisVersionRepository(client *redis.Client) *RedisVersionRepository {
 
 func (r *RedisVersionRepository) GetVersion() (*entity.Version, error) {
 	ctx := context.Background()
-	versionJSON, err := r.client.Get(ctx, "golang_version").Result()
-	if err != nil {
+	versionJSON, err := r.client.Get(ctx, "golang").Result()
+	var version entity.Version
+
+	switch {
+	case err == redis.Nil:
+		fmt.Println("key does not exist")
+		return &version, nil
+	case err != nil:
 		return nil, err
 	}
 
-	var version entity.Version
 	err = json.Unmarshal([]byte(versionJSON), &version)
 	if err != nil {
 		return nil, err

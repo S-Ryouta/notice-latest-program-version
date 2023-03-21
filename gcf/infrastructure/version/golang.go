@@ -58,7 +58,7 @@ func GetLatestVersion() (string, error) {
 	}
 
 	// Find the latest stable version
-	r := regexp.MustCompile(`^go[0-9]+\.[0-9]+(\.[0-9]+)?$`)
+	r := regexp.MustCompile(`^[0-9]+\.[0-9]+(\.[0-9]+)?$`)
 	for _, v := range versions {
 		if r.MatchString(v.Latest) {
 			return v.Latest, nil

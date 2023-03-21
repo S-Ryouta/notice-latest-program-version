@@ -31,6 +31,8 @@ func (interactor *VersionInteractor) CheckAndUpdateVersion() {
 		return
 	}
 
+	fmt.Printf("new version detail: %s \n", newVersion)
+	fmt.Printf("current version detail: %+v \n", storedVersionEntity)
 	if storedVersionEntity.Version != newVersion {
 		err = interactor.VersionRepo.SaveVersion(&entity.Version{
 			ID:      "golang",

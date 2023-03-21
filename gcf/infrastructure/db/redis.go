@@ -21,7 +21,7 @@ func NewRedisVersionRepository(client *redis.Client) *RedisVersionRepository {
 
 func (r *RedisVersionRepository) GetVersion() (*entity.Version, error) {
 	ctx := context.Background()
-	versionJSON, err := r.client.Get(ctx, "golang").Result()
+	versionJSON, err := r.client.Get(ctx, "golang_version").Result()
 	var version entity.Version
 
 	switch {

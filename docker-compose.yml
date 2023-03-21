@@ -2,7 +2,12 @@ version: '3.9'
 
 services:
   app:
-    build: ..
+    build:
+      context: gcf
+      dockerfile: Dockerfile
+    platform: linux/x86_64
+    command: go run main.go
+    container_name: notice-latest-program-version-app
     ports:
       - '8080:8080'
     environment:
@@ -12,10 +17,25 @@ services:
       LINE_CHANNEL_TOKEN: your-line-channel-token
       DISCORD_BOT_TOKEN: your-discord-bot-token
       DISCORD_CHANNEL_ID: your-discord-channel-id
+    stdin_open: true
+    tty: true
     depends_on:
       - redis
+    networks:
+      - backend
 
   redis:
     image: 'redis:6.2'
+    container_name: notice-latest-program-version-db
+    ports:
+      - "6379:6379"
     environment:
       REDIS_PASSWORD: your-redis-password
+    volumes:
+      - "./data/redis:/data"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

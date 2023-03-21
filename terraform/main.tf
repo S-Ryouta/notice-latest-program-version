@@ -22,7 +22,7 @@ resource "google_pubsub_topic" "topic" {
 resource "google_cloudfunctions_function" "function" {
 
   environment_variables = {
-    REDIS_ADDR           = "your-redis-addr"
+    REDIS_ADDR           = "10.214.144.91:6379"
     REDIS_PASSWORD       = "your-redis-password"
     LINE_CHANNEL_SECRET  = "your-line-channel-secret"
     LINE_CHANNEL_TOKEN   = "your-line-channel-token"
@@ -45,13 +45,15 @@ resource "google_cloudfunctions_function" "function" {
     resource   = google_pubsub_topic.topic.id
   }
 
-  entry_point = "CheckAndUpdateVersionHandler"
+  entry_point      = "CheckAndUpdateVersionHandler"
+  ingress_settings = "ALLOW_INTERNAL_ONLY"
+  vpc_connector    = "projects/notice-latest-program-version/locations/asia-northeast1/connectors/notice-latest-program-vpc"
 }
 
 resource "google_cloud_scheduler_job" "job" {
   name             = "check-update-version-scheduler"
   description      = "Trigger the function to check and notify for programming language version updates every week on Monday at 18:00"
-  schedule         = "*/30 * * * *"
+  schedule         = "*/15 * * * *"
   time_zone        = "UTC"
   attempt_deadline = "60s"
 
@@ -95,3 +97,8 @@ resource "google_compute_firewall" "allow_internal" {
   source_ranges = [google_compute_subnetwork.vpc_subnetwork.ip_cidr_range]
 }
 
+resource "google_vpc_access_connector" "connector" {
+  name          = "notice-latest-program-vpc"
+  ip_cidr_range = "10.8.20.0/28"
+  network =  google_compute_network.vpc_network.name
+}

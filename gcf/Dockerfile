@@ -6,8 +6,8 @@ COPY go.mod go.sum ./
 RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.1
 RUN go mod download
 
-COPY .. .
+COPY . .
 
-RUN go build -o main ./cmd/updater
+RUN go build -o notice-latest-program-version main.go
 
-CMD ["./main"]
+#CMD ["./main"]

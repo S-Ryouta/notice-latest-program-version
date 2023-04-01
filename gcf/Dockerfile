@@ -10,4 +10,4 @@ COPY . .
 
 RUN go build -o notice-latest-program-version main.go
 
-#CMD ["./main"]
+CMD ["./notice-latest-program-version"]

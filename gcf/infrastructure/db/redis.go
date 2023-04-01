@@ -47,7 +47,7 @@ func (r *RedisVersionRepository) SaveVersion(version *entity.Version) error {
 		return err
 	}
 
-	err = r.client.Set(ctx, "golang_version", versionJSON, time.Hour*24*7).Err()
+	err = r.client.Set(ctx, "golang_version", versionJSON, time.Hour*24*31).Err()
 	if err != nil {
 		return err
 	}

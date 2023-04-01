@@ -8,6 +8,6 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o notice-latest-program-version main.go
+RUN go build -o notice-latest-program-version cmd/main.go
 
 CMD ["./notice-latest-program-version"]

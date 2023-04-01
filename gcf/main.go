@@ -1,12 +1,10 @@
-package main
+package gcf
 
 import (
 	"context"
-	"github.com/GoogleCloudPlatform/functions-framework-go/funcframework"
 	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/db"
 	"github.com/S-Ryouta/notice-latest-program-version/gcf/usecase/version"
 	"github.com/go-redis/redis/v8"
-	"log"
 	"os"
 )
 
@@ -26,20 +24,4 @@ func CheckAndUpdateVersionHandler(ctx context.Context, m PubSubMessage) error {
 	versionInteractor := version.NewVersionInteractor(redisVersionRepo)
 	versionInteractor.CheckAndUpdateVersion()
 	return nil
-}
-
-func main() {
-	ctx := context.Background()
-	if err := funcframework.RegisterEventFunctionContext(ctx, "/", CheckAndUpdateVersionHandler); err != nil {
-		log.Fatalf("funcframework.RegisterEventFunctionContext: %v\n", err)
-	}
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	if err := funcframework.Start(port); err != nil {
-		log.Fatalf("funcframework.Start: %v\n", err)
-	}
 }

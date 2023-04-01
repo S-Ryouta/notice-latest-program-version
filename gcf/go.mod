@@ -7,6 +7,7 @@ require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/line/line-bot-sdk-go v7.8.0+incompatible
+	github.com/slack-go/slack v0.12.1
 )
 
 require (

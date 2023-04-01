@@ -43,7 +43,17 @@ func (interactor *VersionInteractor) CheckAndUpdateVersion() {
 			return
 		}
 
-		notification.SendNotificationToLine(newVersion)
-		notification.SendNotificationToDiscord(newVersion)
+		err = notification.SendNotificationToLine(newVersion)
+		if err != nil {
+			fmt.Println("Error notification to line:", err)
+		}
+		err = notification.SendNotificationToSlack(newVersion)
+		if err != nil {
+			fmt.Println("Error notification to slack:", err)
+		}
+		err = notification.SendNotificationToDiscord(newVersion)
+		if err != nil {
+			fmt.Println("Error notification to discord:", err)
+		}
 	}
 }

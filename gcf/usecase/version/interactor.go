@@ -9,17 +9,19 @@ import (
 )
 
 type VersionInteractor struct {
-	VersionRepo repository.VersionRepository
+	VersionRepo   repository.VersionRepository
+	VersionGetter version.VersionGetter
 }
 
-func NewVersionInteractor(client repository.VersionRepository) *VersionInteractor {
+func NewVersionInteractor(client repository.VersionRepository, getter version.VersionGetter) *VersionInteractor {
 	return &VersionInteractor{
-		VersionRepo: client,
+		VersionRepo:   client,
+		VersionGetter: getter,
 	}
 }
 
 func (interactor *VersionInteractor) CheckAndUpdateVersion() {
-	newVersion, err := version.GetLatestVersion()
+	newVersion, err := interactor.VersionGetter.GetLatestVersion()
 	if err != nil {
 		fmt.Println("Error getting the latest Golang version:", err)
 		return

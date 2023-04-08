@@ -3,7 +3,8 @@ package gcf
 import (
 	"context"
 	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/db"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/usecase/version"
+	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
+	usecaseVersion "github.com/S-Ryouta/notice-latest-program-version/gcf/usecase/version"
 	"github.com/go-redis/redis/v8"
 	"os"
 )
@@ -20,8 +21,9 @@ func CheckAndUpdateVersionHandler(ctx context.Context, m PubSubMessage) error {
 		DB:   1, // use default DB
 	})
 
+	versionGetter := version.NewDefaultVersionGetter()
 	redisVersionRepo := db.NewRedisVersionRepository(redisClient)
-	versionInteractor := version.NewVersionInteractor(redisVersionRepo)
+	versionInteractor := usecaseVersion.NewVersionInteractor(redisVersionRepo, versionGetter)
 	versionInteractor.CheckAndUpdateVersion()
 	return nil
 }

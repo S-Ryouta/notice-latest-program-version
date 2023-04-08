@@ -10,10 +10,10 @@ import (
 )
 
 type RedisVersionRepository struct {
-	client *redis.Client
+	client redis.Cmdable
 }
 
-func NewRedisVersionRepository(client *redis.Client) *RedisVersionRepository {
+func NewRedisVersionRepository(client redis.Cmdable) *RedisVersionRepository { // 修正
 	return &RedisVersionRepository{
 		client: client,
 	}

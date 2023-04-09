@@ -7,6 +7,7 @@ import (
 	usecaseVersion "github.com/S-Ryouta/notice-latest-program-version/usecase/version"
 	"github.com/go-redis/redis/v8"
 	"os"
+	"strings"
 )
 
 // PubSubMessage is the payload of a Pub/Sub event. Please refer to the docs for
@@ -23,7 +24,10 @@ func CheckAndUpdateVersionHandler(ctx context.Context, m PubSubMessage) error {
 
 	versionGetter := version.NewDefaultVersionGetter()
 	redisVersionRepo := db.NewRedisVersionRepository(redisClient)
-	versionInteractor := usecaseVersion.NewVersionInteractor(redisVersionRepo, versionGetter)
-	versionInteractor.CheckAndUpdateVersion()
+	targetLanguages := strings.Split(os.Getenv("TARGET_LANGUAGES"), ",")
+	for _, language := range targetLanguages {
+		versionInteractor := usecaseVersion.NewVersionInteractor(redisVersionRepo, versionGetter, language)
+		versionInteractor.CheckAndUpdateVersion()
+	}
 	return nil
 }

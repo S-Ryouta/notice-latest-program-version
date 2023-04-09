@@ -13,6 +13,7 @@ import (
 func TestGetLatestVersion(t *testing.T) {
 	testCases := []struct {
 		name               string
+		language           string
 		responseStatusCode int
 		responseBody       string
 		expectError        bool
@@ -20,6 +21,7 @@ func TestGetLatestVersion(t *testing.T) {
 	}{
 		{
 			name:               "Success",
+			language:           "golang",
 			responseStatusCode: http.StatusOK,
 			responseBody: `[{
 				"cycle": "1.16.x",
@@ -33,6 +35,7 @@ func TestGetLatestVersion(t *testing.T) {
 		},
 		{
 			name:               "ErrorParsingResponseBody",
+			language:           "golang",
 			responseStatusCode: http.StatusOK,
 			responseBody:       `invalid JSON`,
 			expectError:        true,
@@ -40,6 +43,7 @@ func TestGetLatestVersion(t *testing.T) {
 		},
 		{
 			name:               "ErrorNon200Response",
+			language:           "golang",
 			responseStatusCode: http.StatusInternalServerError,
 			responseBody: `{
 				"message": "Internal server error"
@@ -62,7 +66,7 @@ func TestGetLatestVersion(t *testing.T) {
 			version.EndOfLifeUrl = ts.URL
 
 			versionGetter := version.NewDefaultVersionGetter()
-			gotVersion, err := versionGetter.GetLatestVersion()
+			gotVersion, err := versionGetter.GetLatestVersion(tc.language)
 
 			// Restore the original EndOfLifeUrl
 			version.EndOfLifeUrl = originalEndOfLifeUrl

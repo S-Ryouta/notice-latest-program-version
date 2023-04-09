@@ -7,7 +7,7 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-func SendNotificationToLine(version string) error {
+func SendNotificationToLine(language string, version string) error {
 	channelSecret := os.Getenv("LINE_CHANNEL_SECRET")
 	channelToken := os.Getenv("LINE_CHANNEL_TOKEN")
 
@@ -16,7 +16,7 @@ func SendNotificationToLine(version string) error {
 		return err
 	}
 
-	message := fmt.Sprintf("Golangの最新バージョンがリリースされました: %s", version)
+	message := fmt.Sprintf("%sの最新バージョンがリリースされました: %s", language, version)
 	if _, err := bot.BroadcastMessage(linebot.NewTextMessage(message)).Do(); err != nil {
 		return err
 	}

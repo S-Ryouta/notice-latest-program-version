@@ -31,6 +31,7 @@ func TestRedisVersionRepository_GetVersion(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		client := new(MockRedisClient)
 		repo := db.NewRedisVersionRepository(client)
+		language := "golang"
 
 		versionJSON := `{"version": "1.0.0"}`
 		client.On("Get", mock.Anything, "golang_version").Return(redis.NewStringResult(versionJSON, nil))
@@ -39,7 +40,7 @@ func TestRedisVersionRepository_GetVersion(t *testing.T) {
 			Version: "1.0.0",
 		}
 
-		version, err := repo.GetVersion()
+		version, err := repo.GetVersion(language)
 		assert.NoError(t, err)
 		assert.Equal(t, expected, version)
 		client.AssertExpectations(t)
@@ -48,10 +49,11 @@ func TestRedisVersionRepository_GetVersion(t *testing.T) {
 	t.Run("key does not exist", func(t *testing.T) {
 		client := new(MockRedisClient)
 		repo := db.NewRedisVersionRepository(client)
+		language := "golang"
 
 		client.On("Get", mock.Anything, "golang_version").Return(redis.NewStringResult("", redis.Nil))
 
-		version, err := repo.GetVersion()
+		version, err := repo.GetVersion(language)
 		assert.NoError(t, err)
 		assert.NotNil(t, version)
 		assert.Empty(t, version.Version)
@@ -61,10 +63,11 @@ func TestRedisVersionRepository_GetVersion(t *testing.T) {
 	t.Run("error", func(t *testing.T) {
 		client := new(MockRedisClient)
 		repo := db.NewRedisVersionRepository(client)
+		language := "golang"
 
 		client.On("Get", mock.Anything, "golang_version").Return(redis.NewStringResult("", errors.New("some error")))
 
-		_, err := repo.GetVersion()
+		_, err := repo.GetVersion(language)
 		assert.Error(t, err)
 		client.AssertExpectations(t)
 	})
@@ -76,6 +79,7 @@ func TestRedisVersionRepository_SaveVersion(t *testing.T) {
 		repo := db.NewRedisVersionRepository(client)
 
 		version := &entity.Version{
+			ID:      "golang",
 			Version: "1.0.0",
 		}
 
@@ -91,6 +95,7 @@ func TestRedisVersionRepository_SaveVersion(t *testing.T) {
 		repo := db.NewRedisVersionRepository(client)
 
 		version := &entity.Version{
+			ID:      "golang",
 			Version: "1.0.0",
 		}
 

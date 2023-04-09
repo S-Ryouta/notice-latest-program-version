@@ -25,13 +25,13 @@ type EndOfLifeErrorResponse struct {
 }
 
 type VersionGetter interface {
-	GetLatestVersion() (string, error)
+	GetLatestVersion(language string) (string, error)
 }
 
 type defaultVersionGetter struct{}
 
-func (d *defaultVersionGetter) GetLatestVersion() (string, error) {
-	response, err := http.Get(EndOfLifeUrl + "/api/go.json")
+func (d *defaultVersionGetter) GetLatestVersion(language string) (string, error) {
+	response, err := http.Get(fmt.Sprintf("%s/api/%s.json", EndOfLifeUrl, language))
 	if err != nil {
 		return "", err
 	}
@@ -64,14 +64,14 @@ func (d *defaultVersionGetter) GetLatestVersion() (string, error) {
 	}
 
 	// Find the latest stable version
-	r := regexp.MustCompile(`^[0-9]+\.[0-9]+(\.[0-9]+)?$`)
+	r := regexp.MustCompile(`^[0-9]+\.[0-9]+(\.[0-9]+)+(\.[0-9]+)?$`)
 	for _, v := range versions {
 		if r.MatchString(v.Latest) {
 			return v.Latest, nil
 		}
 	}
 
-	return "", fmt.Errorf("latest stable Golang version not found")
+	return "", fmt.Errorf("latest stable version not found for %s", language)
 }
 
 func NewDefaultVersionGetter() VersionGetter {

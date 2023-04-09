@@ -5,6 +5,6 @@ import (
 )
 
 type VersionRepository interface {
-	GetVersion() (*entity.Version, error)
+	GetVersion(language string) (*entity.Version, error)
 	SaveVersion(version *entity.Version) error
 }

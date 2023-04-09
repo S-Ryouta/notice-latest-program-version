@@ -41,7 +41,7 @@ jobs:
       - run:
           name: "Test coverage"
           command: |
-            cat cover-profile.out | grep -v "helpers/tests/" | grep -v "db/seeds" > coverage.out
+            cat cover-profile.out > coverage.out
             go tool cover -func=coverage.out
             go tool cover -html=coverage.out -o coverage.html
             mv coverage.html /tmp/artifacts

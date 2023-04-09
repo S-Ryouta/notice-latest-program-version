@@ -13,15 +13,15 @@ type RedisVersionRepository struct {
 	client redis.Cmdable
 }
 
-func NewRedisVersionRepository(client redis.Cmdable) *RedisVersionRepository { // 修正
+func NewRedisVersionRepository(client redis.Cmdable) *RedisVersionRepository {
 	return &RedisVersionRepository{
 		client: client,
 	}
 }
 
-func (r *RedisVersionRepository) GetVersion() (*entity.Version, error) {
+func (r *RedisVersionRepository) GetVersion(language string) (*entity.Version, error) {
 	ctx := context.Background()
-	versionJSON, err := r.client.Get(ctx, "golang_version").Result()
+	versionJSON, err := r.client.Get(ctx, fmt.Sprintf("%s_version", language)).Result()
 	var version entity.Version
 
 	switch {
@@ -47,7 +47,7 @@ func (r *RedisVersionRepository) SaveVersion(version *entity.Version) error {
 		return err
 	}
 
-	err = r.client.Set(ctx, "golang_version", versionJSON, time.Hour*24*31).Err()
+	err = r.client.Set(ctx, fmt.Sprintf("%s_version", version.ID), versionJSON, time.Hour*24*31).Err()
 	if err != nil {
 		return err
 	}

@@ -3,7 +3,7 @@ version: '3.9'
 services:
   app:
     build:
-      context: gcf
+      context: .
       dockerfile: Dockerfile
     platform: linux/x86_64
     container_name: notice-latest-program-version-app

@@ -1,0 +1,55 @@
+version: 2.1
+
+orbs:
+  go: circleci/go@1.7.1
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - go/load-cache
+      - go/mod-download
+      - run:
+          name: "golangci-lint download"
+          command: |
+            go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.1
+      - go/save-cache
+
+jobs:
+  lint:
+    docker:
+      - image: cimg/go:1.20.0
+    steps:
+      - setup
+      - run:
+          name: golangci-lint
+          command: golangci-lint run
+  tests:
+    docker:
+      - image: cimg/go:1.20.0
+      - image: cimg/redis:6.2.10
+        environment:
+          REDIS_ADDR: your-redis-password
+          REDIS_PASSWORD: your-line-channel-secret
+    steps:
+      - setup
+      - go/test:
+          covermode: atomic
+          coverprofile: cover-profile.out
+          failfast: true
+          race: true
+      - run:
+          name: "Test coverage"
+          command: |
+            cat cover-profile.out > coverage.out
+            go tool cover -func=coverage.out
+            go tool cover -html=coverage.out -o coverage.html
+            mv coverage.html /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+
+workflows:
+  run_tests:
+    jobs:
+      - lint
+      - tests

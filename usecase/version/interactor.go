@@ -2,10 +2,10 @@ package version
 
 import (
 	"fmt"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/repository"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/notification"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/entity"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/repository"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/notification"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/version"
 )
 
 type VersionInteractor struct {

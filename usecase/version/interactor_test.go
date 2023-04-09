@@ -4,9 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
-	usecaseVersion "github.com/S-Ryouta/notice-latest-program-version/gcf/usecase/version"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/entity"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/version"
+	usecaseVersion "github.com/S-Ryouta/notice-latest-program-version/usecase/version"
 	"github.com/stretchr/testify/mock"
 )
 

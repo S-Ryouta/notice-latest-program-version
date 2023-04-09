@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/version"
 	"github.com/stretchr/testify/assert"
 )
 

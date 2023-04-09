@@ -1,10 +1,10 @@
-package gcf
+package notice_latest_program_version
 
 import (
 	"context"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/db"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
-	usecaseVersion "github.com/S-Ryouta/notice-latest-program-version/gcf/usecase/version"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/db"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/version"
+	usecaseVersion "github.com/S-Ryouta/notice-latest-program-version/usecase/version"
 	"github.com/go-redis/redis/v8"
 	"os"
 )

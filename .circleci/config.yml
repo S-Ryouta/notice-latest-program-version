@@ -7,16 +7,13 @@ commands:
   setup:
     steps:
       - checkout
-      - go/load-cache:
-        path: ~/project/gcf
-      - go/mod-download:
-        path: ~/project/gcf
+      - go/load-cache
+      - go/mod-download
       - run:
           name: "golangci-lint download"
           command: |
             go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.1
-      - go/save-cache:
-        path: ~/project/gcf
+      - go/save-cache
 
 jobs:
   lint:

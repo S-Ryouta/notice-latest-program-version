@@ -3,8 +3,8 @@ package db_test
 import (
 	"context"
 	"errors"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/db"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/entity"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/db"
 	"github.com/go-redis/redis/v8"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

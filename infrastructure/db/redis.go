@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/entity"
 	"github.com/go-redis/redis/v8"
 	"time"
 )

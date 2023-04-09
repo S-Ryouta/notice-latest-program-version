@@ -2,24 +2,26 @@ package version
 
 import (
 	"fmt"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/entity"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/domain/repository"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/notification"
-	"github.com/S-Ryouta/notice-latest-program-version/gcf/infrastructure/version"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/entity"
+	"github.com/S-Ryouta/notice-latest-program-version/domain/repository"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/notification"
+	"github.com/S-Ryouta/notice-latest-program-version/infrastructure/version"
 )
 
 type VersionInteractor struct {
-	VersionRepo repository.VersionRepository
+	VersionRepo   repository.VersionRepository
+	VersionGetter version.VersionGetter
 }
 
-func NewVersionInteractor(client repository.VersionRepository) *VersionInteractor {
+func NewVersionInteractor(client repository.VersionRepository, getter version.VersionGetter) *VersionInteractor {
 	return &VersionInteractor{
-		VersionRepo: client,
+		VersionRepo:   client,
+		VersionGetter: getter,
 	}
 }
 
 func (interactor *VersionInteractor) CheckAndUpdateVersion() {
-	newVersion, err := version.GetLatestVersion()
+	newVersion, err := interactor.VersionGetter.GetLatestVersion()
 	if err != nil {
 		fmt.Println("Error getting the latest Golang version:", err)
 		return

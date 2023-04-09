@@ -8,7 +8,7 @@ import (
 	"regexp"
 )
 
-const (
+var (
 	EndOfLifeUrl = "https://endoflife.date"
 )
 
@@ -24,7 +24,13 @@ type EndOfLifeErrorResponse struct {
 	Message string `json:"message"`
 }
 
-func GetLatestVersion() (string, error) {
+type VersionGetter interface {
+	GetLatestVersion() (string, error)
+}
+
+type defaultVersionGetter struct{}
+
+func (d *defaultVersionGetter) GetLatestVersion() (string, error) {
 	response, err := http.Get(EndOfLifeUrl + "/api/go.json")
 	if err != nil {
 		return "", err
@@ -66,4 +72,8 @@ func GetLatestVersion() (string, error) {
 	}
 
 	return "", fmt.Errorf("latest stable Golang version not found")
+}
+
+func NewDefaultVersionGetter() VersionGetter {
+	return &defaultVersionGetter{}
 }
